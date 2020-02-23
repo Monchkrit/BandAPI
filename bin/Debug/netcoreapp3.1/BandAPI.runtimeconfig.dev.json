@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/home/monchkrit/.dotnet/store/|arch|/|tfm|",
+      "/home/monchkrit/.nuget/packages"
+    ]
+  }
+}
