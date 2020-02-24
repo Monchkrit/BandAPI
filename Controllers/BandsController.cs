@@ -21,7 +21,7 @@ namespace BandAPI.Controllers
     {
       var bandsFromRepo = _bandAlbumRepository.GetBands();
 
-      return new JsonResult(bandsFromRepo);
+      return new OkObjectResult(bandsFromRepo);
     }
     [HttpGet("{bandID}")]
     public IActionResult getBand(Guid bandID)
