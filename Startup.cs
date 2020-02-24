@@ -28,7 +28,10 @@ namespace BandAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(setupAction =>
+            {
+                setupAction.ReturnHttpNotAcceptable = true;
+            }).AddXmlSerializerFormatters();
             services.AddScoped<IBandAlbumRepository, BandAlbumRepository>();
             services.AddDbContext<BandAlbumContext>(options =>            
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
