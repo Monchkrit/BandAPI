@@ -11,6 +11,7 @@
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/Microsoft.Bcl.HashCode.dll
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.dll
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Design.dll
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Relational.dll
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/Microsoft.Extensions.Caching.Abstractions.dll
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/Microsoft.Extensions.Caching.Memory.dll
@@ -29,12 +30,12 @@
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/System.ComponentModel.Annotations.dll
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/System.Diagnostics.DiagnosticSource.dll
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.csprojAssemblyReference.cache
-/home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/staticwebassets/BandAPI.StaticWebAssets.Manifest.cache
-/home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/staticwebassets/BandAPI.StaticWebAssets.xml
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.MvcApplicationPartsAssemblyInfo.cache
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.AssemblyInfoInputs.cache
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.AssemblyInfo.cs
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.RazorTargetAssemblyInfo.cache
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.csproj.CopyComplete
+/home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/staticwebassets/BandAPI.StaticWebAssets.Manifest.cache
+/home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/staticwebassets/BandAPI.StaticWebAssets.xml
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.dll
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.pdb
