@@ -13,6 +13,7 @@ namespace Services.IBandAlbumRepository
     {
       _context = context ?? throw new ArgumentNullException(nameof(context));
     }
+
     public void AddAlbum(Guid bandID, Album album)
     {
       if (bandID == Guid.Empty)
@@ -73,6 +74,17 @@ namespace Services.IBandAlbumRepository
       return _context.Albums.FirstOrDefault(a => a.ID == albumID);
     }
 
+    public Album GetAlbum(Guid bandID, Guid albumID)
+    {
+      if (bandID == Guid.Empty)
+        throw new ArgumentNullException(nameof(bandID));
+
+      if (albumID == Guid.Empty)
+        throw new ArgumentNullException(nameof(albumID));
+
+      return _context.Albums.Where(a => a.BandID == bandID && a.ID == albumID).First();
+    }
+
     public IEnumerable<Album> GetAlbums(Guid bandID)
     {
       if (bandID == Guid.Empty)
@@ -102,6 +114,15 @@ namespace Services.IBandAlbumRepository
 
       return _context.Bands.Where(b => bandIDs.Contains(b.ID))
                             .OrderBy(b => b.Name).ToList();
+    }
+
+    public IEnumerable<Band> GetBands(string mainGenre)
+    {
+      if (string.IsNullOrWhiteSpace(mainGenre))
+        return GetBands();
+
+      mainGenre = mainGenre.Trim();
+      return _context.Bands.Where(b => b.MainGenre == mainGenre);
     }
 
     public bool Save()

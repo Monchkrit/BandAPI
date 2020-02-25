@@ -18,7 +18,7 @@ namespace BandAPI.Entities
 
     [MaxLength(400)]
     public string Description { get; set; }
-    public DateTime? ReleaseDate { get; set; }
+    public DateTime ReleaseDate { get; set; }
 
     [ForeignKey("BandID")]
     public Band Band { get; set; }

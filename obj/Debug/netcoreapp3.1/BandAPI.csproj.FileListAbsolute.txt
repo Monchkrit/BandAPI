@@ -39,3 +39,5 @@
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/staticwebassets/BandAPI.StaticWebAssets.xml
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.dll
 /home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.pdb
+/home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/AutoMapper.dll
+/home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

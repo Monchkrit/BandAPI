@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Services.IBandAlbumRepository;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace BandAPI
 {
@@ -26,9 +29,11 @@ namespace BandAPI
             {
                 setupAction.ReturnHttpNotAcceptable = true;
             }).AddXmlDataContractSerializerFormatters();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IBandAlbumRepository, BandAlbumRepository>();
             services.AddDbContext<BandAlbumContext>(options =>            
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +42,17 @@ namespace BandAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler(appBuilder =>
+                {
+                    appBuilder.Run(async c => 
+                    {
+                        c.Response.StatusCode = 500;
+                        await c.Response.WriteAsync("Something went wrong, try again later.");
+                    });
+                });
             }
 
             app.UseHttpsRedirection();
