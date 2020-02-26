@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BandAPI.DbContexts;
 using BandAPI.Entities;
+using BandAPI.Helpers;
 
 namespace Services.IBandAlbumRepository
 {
@@ -52,7 +53,7 @@ namespace Services.IBandAlbumRepository
 
     public void DeleteAlbum(Album album)
     {
-      if (album == null)
+      if (album is null)
         throw new ArgumentNullException(nameof(album));
 
       _context.Albums.Remove(album);
@@ -60,7 +61,7 @@ namespace Services.IBandAlbumRepository
 
     public void DeleteBand(Band band)
     {
-      if (band == null)
+      if (band is null)
         throw new ArgumentNullException(nameof(band));
 
       _context.Bands.Remove(band);
@@ -116,13 +117,52 @@ namespace Services.IBandAlbumRepository
                             .OrderBy(b => b.Name).ToList();
     }
 
-    public IEnumerable<Band> GetBands(string mainGenre)
+    public IEnumerable<Band> GetBands(BandResourceParameters bandResourceParameters)
     {
-      if (string.IsNullOrWhiteSpace(mainGenre))
+      if (bandResourceParameters is null)
+      {
+        throw new ArgumentNullException(nameof(bandResourceParameters));
+      }
+
+      var mainGenre = bandResourceParameters.MainGenre;
+      var searchQuery = bandResourceParameters.SearchQuery;
+
+      if (string.IsNullOrWhiteSpace(mainGenre) && string.IsNullOrWhiteSpace(searchQuery))
         return GetBands();
 
-      mainGenre = mainGenre.Trim();
-      return _context.Bands.Where(b => b.MainGenre == mainGenre);
+      using (var bands = _context)
+      {
+        if (!string.IsNullOrWhiteSpace(mainGenre) && !string.IsNullOrWhiteSpace(searchQuery))
+        {
+          mainGenre = mainGenre.Trim();
+          searchQuery = searchQuery.Trim();
+          var collection = (from b in bands.Bands
+                      where b.MainGenre == mainGenre && b.Name.Contains(searchQuery)
+                      select b).ToList();
+          
+          return collection;
+        }
+        else if (!string.IsNullOrWhiteSpace(mainGenre))
+        {
+          mainGenre = mainGenre.Trim();
+          var collection = (from b in bands.Bands
+                      where b.MainGenre == mainGenre
+                      select b).ToList();
+
+          return collection;
+        }
+        else if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+          searchQuery = searchQuery.Trim();
+          var collection = (from b in bands.Bands
+                      where b.Name.Contains(searchQuery)
+                      select b).ToList();
+
+          return collection;
+        }
+      }
+      
+      return null;
     }
 
     public bool Save()

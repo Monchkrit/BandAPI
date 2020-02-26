@@ -14,7 +14,7 @@
       "launchBrowser": false,
       "launchUrl": "bandalbumapi",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "BandAPI": {
@@ -23,7 +23,7 @@
       "launchUrl": "bandalbumapi",
       "applicationUrl": "https://localhost:65000;http://localhost:65001",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

@@ -26,10 +26,11 @@ namespace BandAPI.Controllers
 
     [HttpGet]
     [HttpHead]
-    public ActionResult<IEnumerable<BandDto>> getBands([FromQuery]string mainGenre)
+    public ActionResult<IEnumerable<BandDto>> getBands([FromQuery]BandResourceParameters bandResourceParameters)
     {
       // throw new Exception("Exception testing of bands");
-      var bandsFromRepo = _bandAlbumRepository.GetBands(mainGenre);
+      var bandsFromRepo = _bandAlbumRepository.GetBands(bandResourceParameters);
+
       // var bandsDto = new List<BandDto>();
 
       // foreach (var band in bandsFromRepo)
@@ -45,7 +46,7 @@ namespace BandAPI.Controllers
       return new OkObjectResult(_mapper.Map<IEnumerable<BandDto>>(bandsFromRepo));
     }
 
-    [HttpGet("{bandID}")]
+    [HttpGet("{bandID}", Name = "getBand")]
     public IActionResult getBand(Guid bandID)
     {
       var bandFromRepo = _bandAlbumRepository.GetBand(bandID);
@@ -53,6 +54,21 @@ namespace BandAPI.Controllers
         return NotFound();
 
       return new OkObjectResult(bandFromRepo);
+    }
+
+    [HttpPost]
+    public ActionResult<BandDto> CreateBand([FromBody]BandForCreatingDto band)
+    {
+      var bandEntity = _mapper.Map<Entities.Band>(band);
+
+      bandEntity.ID = Guid.NewGuid();
+
+      _bandAlbumRepository.AddBand(bandEntity);
+      _bandAlbumRepository.Save();
+
+      var bandToReturn = _mapper.Map<BandDto>(bandEntity);
+
+      return CreatedAtRoute("getBand", new { bandID = bandToReturn}, bandToReturn);
     }
   }
 }
