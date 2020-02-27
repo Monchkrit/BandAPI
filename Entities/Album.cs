@@ -15,7 +15,6 @@ namespace BandAPI.Entities
     [Required]
     [MaxLength(200)]
     public string Title { get; set; }
-
     [MaxLength(400)]
     public string Description { get; set; }
     public DateTime ReleaseDate { get; set; }

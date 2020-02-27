@@ -172,12 +172,12 @@ namespace Services.IBandAlbumRepository
 
     public void UpdateAlbum(Album album)
     {
-      // Implemented in the controller
+      // Implemented in the AlbumsController
     }
 
     public void UpdateBand(Band band)
     {
-      // Implemented in the controller
+      // Implemented in the BandsController
     }
   }
 }
