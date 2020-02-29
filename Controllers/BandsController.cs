@@ -87,5 +87,12 @@ namespace BandAPI.Controllers
 
       return CreatedAtRoute("GetAlbumForBand", new { bandID = bandID, albumID = returnAlbum.ID}, returnAlbum);
     }
+
+    [HttpOptions]
+    public IActionResult GetBandOptions()
+    {
+      Response.Headers.Add("Allow", "GET, POST, DELETE, HEAD, OPTIONS");
+      return Ok();
+    }
   }
 }
