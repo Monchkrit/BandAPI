@@ -23,5 +23,6 @@ namespace Services.IBandAlbumRepository
     bool BandExists(Guid bandID);
     bool AlbumExists(Guid albumID);
     bool Save();
+    void DeleteBand(Band band);
   }
 }

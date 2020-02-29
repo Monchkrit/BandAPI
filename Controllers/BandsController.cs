@@ -94,5 +94,18 @@ namespace BandAPI.Controllers
       Response.Headers.Add("Allow", "GET, POST, DELETE, HEAD, OPTIONS");
       return Ok();
     }
+
+    [HttpDelete("{bandID}")]
+    public ActionResult DeleteBand(Guid bandID)
+    {
+      var bandFromRepo = _bandAlbumRepository.GetBand(bandID);
+      if (bandFromRepo is null)
+        return NotFound();
+
+      _bandAlbumRepository.DeleteBand(bandFromRepo);
+      _bandAlbumRepository.Save();
+
+      return NoContent();
+    }
   }
 }
