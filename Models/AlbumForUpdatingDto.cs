@@ -1,11 +1,12 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using BandAPI.Attributes;
 
 namespace BandAPI.Models
-{
-  public class AlbumForUpdatingDto
+{  
+  public class AlbumForUpdatingDto : AlbumManipulationDto
   {
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public DateTime ReleaseDate { get; set; }
+    [Required(ErrorMessage = "The updated album record requires description.")]
+    public override string Description { get => base.Description; set => base.Description = value; }
   }
 }
