@@ -57,6 +57,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[3.1.1, )"
+            },
+            "microsoft.aspnetcore.mvc.newtonsoftjson": {
+              "target": "Package",
+              "version": "[3.1.2, )"
             }
           },
           "imports": [
