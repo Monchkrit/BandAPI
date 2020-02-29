@@ -5,13 +5,14 @@ using BandAPI.Attributes;
 
 namespace BandAPI.Models
 {
-  [TitleAndDescriptionAttributes]
-  public class AlbumForCreatingDto // : IValidatableObject
+  [TitleAndDescriptionAttributes(ErrorMessage = "Title must be different from description.")]
+  public class AlbumForCreatingDto //: IValidatableObject
   {
     public Guid ID { get; set; }
-    [Required]
+    [Required(ErrorMessage = "The Title is Required.")]
+    [MaxLength(200, ErrorMessage = "The Title Must be Up To 200 Characters")]
     public string Title { get; set; }
-    [MaxLength(400)]
+    [MaxLength(400, ErrorMessage = "The Description Must be Up to 400 Characters")]
     public string Description { get; set; }
     public DateTime ReleaseDate { get; set; }
 

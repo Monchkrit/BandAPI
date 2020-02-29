@@ -62,5 +62,24 @@ namespace BandAPI.Controllers
 
       return CreatedAtRoute("GetAlbumsForBand", new { bandID = bandID, albumID = returnAlbum.ID}, returnAlbum);
     }
+
+    [HttpPut]
+    [Route("{albumID}")]
+    public ActionResult UpdateAlbumForBand(Guid bandID, Guid albumID, [FromBody]AlbumForUpdatingDto album)
+    {
+      if (!_bandAlbumRepository.BandExists(bandID))
+        return NotFound();
+
+      var albumFromRepo = _bandAlbumRepository.GetAlbum(bandID, albumID);
+      if (albumFromRepo is null)
+        return NotFound();
+
+      _mapper.Map(album, albumFromRepo);
+
+      _bandAlbumRepository.UpdateAlbum(albumFromRepo);
+      _bandAlbumRepository.Save();
+
+      return NoContent();
+    }
   }
 }

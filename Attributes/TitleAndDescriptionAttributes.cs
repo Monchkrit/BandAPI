@@ -9,7 +9,7 @@ namespace BandAPI.Attributes
       {
         var album = (AlbumForCreatingDto)validationContext.ObjectInstance;
 
-        if (album.Title.Equals(album.Description))
+        if (album.Title == album.Description)
         {
           return new ValidationResult("The title and description need to be different. Validation failed.", new[] { "AlbumForCreatingDto" });
         }
