@@ -10,6 +10,7 @@ namespace Services.IBandAlbumRepository
   public class BandAlbumRepository : IBandAlbumRepository
   {
     private readonly BandAlbumContext _context;
+    
     public BandAlbumRepository(BandAlbumContext context)
     {
       _context = context ?? throw new ArgumentNullException(nameof(context));
