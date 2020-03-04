@@ -16,7 +16,7 @@ namespace Services.IBandAlbumRepository
     Band GetBand(Guid bandID);
     IEnumerable<Band> GetBands();
     IEnumerable<Band> GetBands(IEnumerable<Guid> bandIDs);
-    IEnumerable<Band> GetBands(BandResourceParameters bandResourceParameters);
+    PagedList<Band> GetBands(BandResourceParameters bandResourceParameters);
     void AddBand(Band band);
     void UpdateBand(Band band);
 

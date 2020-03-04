@@ -24,7 +24,7 @@ namespace BandAPI.Controllers
       _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
-    [HttpGet("({ids})")]
+    [HttpGet("({ids})", Name = "GetBandCollection")]
     public IActionResult GetBandCollection([FromRoute]
       [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
     {
@@ -52,8 +52,10 @@ namespace BandAPI.Controllers
       }
 
       _bandAlbumRepository.Save();
+      var returnBandCollection = _mapper.Map<IEnumerable<BandDto>>(bandEntities);
+      var idString = string.Join(",", bandCollection.Select(a => a.ID));
 
-      return Ok();
+      return CreatedAtRoute("GetBandCollection", new { ids = idString }, returnBandCollection);
     }
   }
 }

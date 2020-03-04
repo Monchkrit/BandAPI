@@ -84,7 +84,7 @@ namespace Services.IBandAlbumRepository
       if (albumID == Guid.Empty)
         throw new ArgumentNullException(nameof(albumID));
 
-      return _context.Albums.Where(a => a.BandID == bandID && a.ID == albumID).First();
+      return _context.Albums.Where(a => a.BandID == bandID && a.ID == albumID).FirstOrDefault();
     }
 
     public IEnumerable<Album> GetAlbums(Guid bandID)
@@ -118,7 +118,7 @@ namespace Services.IBandAlbumRepository
                             .OrderBy(b => b.Name).ToList();
     }
 
-    public IEnumerable<Band> GetBands(BandResourceParameters bandResourceParameters)
+    public PagedList<Band> GetBands(BandResourceParameters bandResourceParameters)
     {
       if (bandResourceParameters is null)
       {
@@ -129,8 +129,12 @@ namespace Services.IBandAlbumRepository
       var searchQuery = bandResourceParameters.SearchQuery;
 
       if (string.IsNullOrWhiteSpace(mainGenre) && string.IsNullOrWhiteSpace(searchQuery))
-        return GetBands();
-
+      {      
+        var collection = _context.Bands as IQueryable<Band>;
+          
+        return PagedList<Band>.Create(collection, bandResourceParameters.PageNumber, bandResourceParameters.PageSize);
+      }
+        
       using (var bands = _context)
       {
         if (!string.IsNullOrWhiteSpace(mainGenre) && !string.IsNullOrWhiteSpace(searchQuery))
@@ -139,27 +143,27 @@ namespace Services.IBandAlbumRepository
           searchQuery = searchQuery.Trim();
           var collection = (from b in bands.Bands
                       where b.MainGenre == mainGenre && b.Name.Contains(searchQuery)
-                      select b).ToList();
-          
-          return collection;
+                      select b);
+
+          return PagedList<Band>.Create(collection, bandResourceParameters.PageNumber, bandResourceParameters.PageSize);
         }
         else if (!string.IsNullOrWhiteSpace(mainGenre))
         {
           mainGenre = mainGenre.Trim();
           var collection = (from b in bands.Bands
                       where b.MainGenre == mainGenre
-                      select b).ToList();
+                      select b);
 
-          return collection;
+          return PagedList<Band>.Create(collection, bandResourceParameters.PageNumber, bandResourceParameters.PageSize);
         }
         else if (!string.IsNullOrWhiteSpace(searchQuery))
         {
           searchQuery = searchQuery.Trim();
           var collection = (from b in bands.Bands
                       where b.Name.Contains(searchQuery)
-                      select b).ToList();
-
-          return collection;
+                      select b);
+                      
+          return PagedList<Band>.Create(collection, bandResourceParameters.PageNumber, bandResourceParameters.PageSize);
         }
       }
       
