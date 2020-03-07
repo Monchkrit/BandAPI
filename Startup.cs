@@ -11,6 +11,7 @@ using AutoMapper;
 using System;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Serialization;
+using BandAPI.Services;
 
 namespace BandAPI
 {
@@ -35,6 +36,7 @@ namespace BandAPI
                 .AddXmlDataContractSerializerFormatters();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IBandAlbumRepository, BandAlbumRepository>();
+            services.AddScoped<IPropertyMappingService, PropertyMappingService>();
             services.AddDbContext<BandAlbumContext>(options =>            
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 

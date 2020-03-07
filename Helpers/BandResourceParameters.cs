@@ -8,11 +8,13 @@ namespace BandAPI.Helpers
     const int maxPageSize = 5;
     public int PageNumber { get; set; } = 1;
 
-    private int _pagesize = 2;
+    private int _pagesize = 5;
 
     public int PageSize { 
       get => _pagesize; 
       set => _pagesize = (value > maxPageSize) ? maxPageSize : value;
     }
+
+    public string OrderBy { get; set; } = "Name";
   }
 }

@@ -4,16 +4,19 @@ using System.Linq;
 using BandAPI.DbContexts;
 using BandAPI.Entities;
 using BandAPI.Helpers;
+using Services.IBandAlbumRepository;
 
-namespace Services.IBandAlbumRepository
+namespace BandAPI.Services
 {
   public class BandAlbumRepository : IBandAlbumRepository
   {
     private readonly BandAlbumContext _context;
+    private readonly IPropertyMappingService _propertyMappingService;
     
-    public BandAlbumRepository(BandAlbumContext context)
+    public BandAlbumRepository(BandAlbumContext context, IPropertyMappingService propertyMappingService)
     {
       _context = context ?? throw new ArgumentNullException(nameof(context));
+      _propertyMappingService = propertyMappingService;
     }
 
     public void AddAlbum(Guid bandID, Album album)
@@ -127,10 +130,17 @@ namespace Services.IBandAlbumRepository
 
       var mainGenre = bandResourceParameters.MainGenre;
       var searchQuery = bandResourceParameters.SearchQuery;
+            
 
       if (string.IsNullOrWhiteSpace(mainGenre) && string.IsNullOrWhiteSpace(searchQuery))
-      {      
+      {
         var collection = _context.Bands as IQueryable<Band>;
+
+        if (!string.IsNullOrWhiteSpace(bandResourceParameters.OrderBy))
+        {
+          var bandPropertyMappingDictionary = _propertyMappingService.GetPropertyMapping<Models.BandDto, Entities.Band>();
+          collection = collection.ApplySort(bandResourceParameters.OrderBy, bandPropertyMappingDictionary);
+        }
           
         return PagedList<Band>.Create(collection, bandResourceParameters.PageNumber, bandResourceParameters.PageSize);
       }
@@ -145,6 +155,12 @@ namespace Services.IBandAlbumRepository
                       where b.MainGenre == mainGenre && b.Name.Contains(searchQuery)
                       select b);
 
+          if (!string.IsNullOrWhiteSpace(bandResourceParameters.OrderBy))
+          {
+            var bandPropertyMappingDictionary = _propertyMappingService.GetPropertyMapping<Models.BandDto, Entities.Band>();
+            collection = collection.ApplySort(bandResourceParameters.OrderBy, bandPropertyMappingDictionary);
+          }
+
           return PagedList<Band>.Create(collection, bandResourceParameters.PageNumber, bandResourceParameters.PageSize);
         }
         else if (!string.IsNullOrWhiteSpace(mainGenre))
@@ -154,6 +170,12 @@ namespace Services.IBandAlbumRepository
                       where b.MainGenre == mainGenre
                       select b);
 
+          if (!string.IsNullOrWhiteSpace(bandResourceParameters.OrderBy))
+          {
+            var bandPropertyMappingDictionary = _propertyMappingService.GetPropertyMapping<Models.BandDto, Entities.Band>();
+            collection = collection.ApplySort(bandResourceParameters.OrderBy, bandPropertyMappingDictionary);
+          }
+
           return PagedList<Band>.Create(collection, bandResourceParameters.PageNumber, bandResourceParameters.PageSize);
         }
         else if (!string.IsNullOrWhiteSpace(searchQuery))
@@ -162,6 +184,12 @@ namespace Services.IBandAlbumRepository
           var collection = (from b in bands.Bands
                       where b.Name.Contains(searchQuery)
                       select b);
+
+          if (!string.IsNullOrWhiteSpace(bandResourceParameters.OrderBy))
+          {
+            var bandPropertyMappingDictionary = _propertyMappingService.GetPropertyMapping<Models.BandDto, Entities.Band>();
+            collection = collection.ApplySort(bandResourceParameters.OrderBy, bandPropertyMappingDictionary);
+          }
                       
           return PagedList<Band>.Create(collection, bandResourceParameters.PageNumber, bandResourceParameters.PageSize);
         }
