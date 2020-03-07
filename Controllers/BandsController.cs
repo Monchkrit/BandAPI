@@ -31,7 +31,7 @@ namespace BandAPI.Controllers
 
     [HttpGet(Name = "GetBands")]
     [HttpHead]
-    public ActionResult<IEnumerable<BandDto>> getBands([FromQuery]BandResourceParameters bandResourceParameters)
+    public IActionResult getBands([FromQuery]BandResourceParameters bandResourceParameters)
     { 
       if (!_propertyMappingService.ValidMappingExists<BandDto, Entities.Band>
         (bandResourceParameters.OrderBy))
@@ -53,7 +53,7 @@ namespace BandAPI.Controllers
 
       Response.Headers.Add("Pagination", JsonSerializer.Serialize(metaData));
 
-      return new OkObjectResult(_mapper.Map<IEnumerable<BandDto>>(bandsFromRepo));
+      return new OkObjectResult(_mapper.Map<IEnumerable<BandDto>>(bandsFromRepo).ShapeData(bandResourceParameters.Fields));
     }
 
     [HttpGet("{bandID}", Name = "getBand")]
@@ -125,6 +125,7 @@ namespace BandAPI.Controllers
         case UriType.PreviousPage:
           return Url.Link("GetBands", new 
           { 
+            fields = bandResourceParameters.Fields,
             orderBy = bandResourceParameters.OrderBy,
             pageNumber = bandResourceParameters.PageNumber - 1,
             pageSize = bandResourceParameters.PageSize,
@@ -135,6 +136,7 @@ namespace BandAPI.Controllers
         case UriType.NextPage:
           return Url.Link("GetBands", new 
           { 
+            fields = bandResourceParameters.Fields,
             orderBy = bandResourceParameters.OrderBy,
             pageNumber = bandResourceParameters.PageNumber + 1,
             pageSize = bandResourceParameters.PageSize,
@@ -145,6 +147,7 @@ namespace BandAPI.Controllers
         default:
           return Url.Link("GetBands", new 
           { 
+            fields = bandResourceParameters.Fields,
             orderBy = bandResourceParameters.OrderBy,
             pageNumber = bandResourceParameters.PageNumber,
             pageSize = bandResourceParameters.PageSize,
