@@ -37,6 +37,7 @@ namespace BandAPI
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IBandAlbumRepository, BandAlbumRepository>();
             services.AddScoped<IPropertyMappingService, PropertyMappingService>();
+            services.AddScoped<IPropertyValidationService, PropertyValidationService>();
             services.AddDbContext<BandAlbumContext>(options =>            
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 

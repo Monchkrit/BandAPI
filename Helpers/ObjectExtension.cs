@@ -5,24 +5,28 @@ using System.Reflection;
 
 namespace BandAPI.Helpers
 {
-  public static class IEnumerableExtension
+  public static class ObjectExtension
   {
-    public static IEnumerable<ExpandoObject> ShapeData<TSource> (this IEnumerable<TSource> source, string fields)
+    public static ExpandoObject ShapeData<TSource>(this TSource source, string fields)
     {
       if (source == null)
         throw new ArgumentNullException(nameof(source));
 
-      var objectList = new List<ExpandoObject>();
-      var propertyInfoList = new List<PropertyInfo>();
-
+      var dataShapedObject = new ExpandoObject();
+      
       if (string.IsNullOrWhiteSpace(fields))
       {
         var propertyInfos = typeof(TSource).GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+        
+        foreach(var propertyInfo in propertyInfos)
+          {
+            var propertyValue = propertyInfo.GetValue(source);
 
-        propertyInfoList.AddRange(propertyInfos);
+            ((IDictionary<string, object>) dataShapedObject).Add(propertyInfo.Name, propertyValue);
+          }
+        return dataShapedObject;
       }
-      else
-      {
+      
         var fieldsAfterSplit = fields.Split(",");
         foreach (var field in fieldsAfterSplit)
         {
@@ -32,24 +36,13 @@ namespace BandAPI.Helpers
           if (propertyInfo == null)
             throw new Exception(propertyName.ToString() + " was not found");
 
-          propertyInfoList.Add(propertyInfo);
+          var propertyValue = propertyInfo.GetValue(source);
+
+          ((IDictionary<string, object>) dataShapedObject).Add(propertyInfo.Name, propertyValue);
+
         }
-      }
 
-        foreach (TSource sourceObject in source)
-        {
-          var dataShapedObject = new ExpandoObject();
-
-          foreach(var propertyInfo in propertyInfoList)
-          {
-            var propertyValue = propertyInfo.GetValue(sourceObject);
-
-            ((IDictionary<string, object>) dataShapedObject).Add(propertyInfo.Name, propertyValue);
-          }
-
-          objectList.Add(dataShapedObject);
-        }
-        return objectList;        
+        return dataShapedObject;
     }
   }
 }

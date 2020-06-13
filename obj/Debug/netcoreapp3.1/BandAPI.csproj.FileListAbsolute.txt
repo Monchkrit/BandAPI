@@ -46,3 +46,5 @@
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/Newtonsoft.Json.dll
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/Newtonsoft.Json.Bson.dll
 /home/monchkrit/Code-House/BandAPI/bin/Debug/netcoreapp3.1/System.Linq.Dynamic.Core.dll
+/home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.csproj.CoreCompileInputs.cache
+/home/monchkrit/Code-House/BandAPI/obj/Debug/netcoreapp3.1/BandAPI.genruntimeconfig.cache
